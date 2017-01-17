@@ -1,3 +1,4 @@
+var myArgs = process.argv.slice(2);
 var request = require('request');
 var fs = require('fs');
 
@@ -15,9 +16,8 @@ function getRepoContributors(repoOwner, repoName, cb) {
   var requestOptions = {
       url: requestURL,
       headers: {
-       'User-Agent': 'Github Avatar Project'
+       'User-Agent': 'Github Avatar Downloader - Student Project'
       },
-      bearer: GITHUB_TOKEN
     };
 
   // request(requestOptions, function (error, response, body){
@@ -32,12 +32,12 @@ function getRepoContributors(repoOwner, repoName, cb) {
 } //function ending getRepoContributors
 
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(myArgs[0], myArgs[1], function(err, result) {
 
   var parsed = JSON.parse(result.body);
   parsed.forEach(function (x) {
     //console.log("Avatar URL :" + x.avatar_url+"\n");
-    downloadImageByURL(x.avatar_url,x.login+".jpg");
+    downloadImageByURL(x.avatar_url,x.login);
 
   }); //forEach loop
 
@@ -46,14 +46,16 @@ getRepoContributors("jquery", "jquery", function(err, result) {
 }); //for the GetREporContributors function
 
 function downloadImageByURL(url, filePath) {
-    var dir = "./avatarImage";
+    if (!fs.existsSync('./avatars')){
+      fs.mkdirSync('./avatars');
+    }
     request.get(url)
     .on('error',function(e){
         throw e;
-    }).on('response',function(response){
-        console.log(response.statusCode);
-    }).pipe(fs.createWriteStream(dir+'/'+filePath));
-}
-
+    // }).on('response',function(response){
+    //     console.log(response.statusCode);
+    })
+    .pipe(fs.createWriteStream('./avatars'+'/'+filePath+".jpg"));
+};
 
 
