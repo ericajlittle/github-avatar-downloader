@@ -26,7 +26,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 // function complete(args){
 //   if (args.length < 2 ){
-//     console.log('Haalp')
+//     console.log('Please specify.')
 //   } else {
     console.log('Welcome to the GitHub Avatar Downloader!');
     getRepoContributors('jquery', 'jquery', function(err, result) {
