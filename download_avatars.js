@@ -1,4 +1,5 @@
 var request = require('request');
+var fs = require('fs');
 
 console.log('Welcome to the GitHub Avatar Downloader!');
 
@@ -32,14 +33,27 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 
 getRepoContributors("jquery", "jquery", function(err, result) {
+
   var parsed = JSON.parse(result.body);
-  parsed.forEach(function(x){
-    console.log("Avatar URL :" + x.avatar_url+"\n");
+  parsed.forEach(function (x) {
+    //console.log("Avatar URL :" + x.avatar_url+"\n");
+    downloadImageByURL(x.avatar_url,x.login+".jpg");
+
+  }); //forEach loop
 
 
-  });
-  // console.log(parsed[0]["avatar_url"]);
 
-  // console.log("Errors:", err);
-  // console.log("Result:", result);
-});
+}); //for the GetREporContributors function
+
+function downloadImageByURL(url, filePath) {
+    var dir = "./avatarImage";
+    request.get(url)
+    .on('error',function(e){
+        throw e;
+    }).on('response',function(response){
+        console.log(response.statusCode);
+    }).pipe(fs.createWriteStream(dir+'/'+filePath));
+}
+
+
+
