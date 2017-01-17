@@ -19,16 +19,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
       },
     };
 
-  // request(requestOptions, function (error, response, body){
-  //   if (!error && response.statusCode == 200){
-  //     var parsed = JSON.parse(body);
-  //     // console.log(parsed);
-  //     console.log(parsed[0]);
-  //   }
-  // });  //main bracket for request.get function
+
   request.get(requestOptions, cb);
 
-} //function ending getRepoContributors
+}
 
 // function complete(args){
 //   if (args.length < 2 ){
@@ -40,8 +34,8 @@ function getRepoContributors(repoOwner, repoName, cb) {
       parsed.forEach(function (x) {
     //console.log("Avatar URL :" + x.avatar_url+"\n");
       downloadImageByURL(x.avatar_url,x.login);
-      }); //forEach loop
-    }); //for the GetREporContributors function
+      });
+    });
 //   }
 // }
 function downloadImageByURL(url, filePath) {
@@ -51,10 +45,8 @@ function downloadImageByURL(url, filePath) {
     request.get(url)
     .on('error',function(e){
         throw e;
-    // }).on('response',function(response){
-    //     console.log(response.statusCode);
     })
     .pipe(fs.createWriteStream('./avatars'+'/'+filePath+".jpg"));
 };
 // complete(myArgs);
-// function if less than 2 then give more info
+
