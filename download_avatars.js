@@ -2,7 +2,6 @@ var myArgs = process.argv.slice(2);
 var request = require('request');
 var fs = require('fs');
 
-console.log('Welcome to the GitHub Avatar Downloader!');
 
 var GITHUB_USER = "ericajlittle";
 var GITHUB_TOKEN = "cfe99330ec5b9a846ee64b62c4385b689e5ea4b2";
@@ -31,20 +30,20 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 } //function ending getRepoContributors
 
-
-getRepoContributors(myArgs[0], myArgs[1], function(err, result) {
-
-  var parsed = JSON.parse(result.body);
-  parsed.forEach(function (x) {
+// function complete(args){
+//   if (args.length < 2 ){
+//     console.log('Haalp')
+//   } else {
+    console.log('Welcome to the GitHub Avatar Downloader!');
+    getRepoContributors('jquery', 'jquery', function(err, result) {
+      var parsed = JSON.parse(result.body);
+      parsed.forEach(function (x) {
     //console.log("Avatar URL :" + x.avatar_url+"\n");
-    downloadImageByURL(x.avatar_url,x.login);
-
-  }); //forEach loop
-
-
-
-}); //for the GetREporContributors function
-
+      downloadImageByURL(x.avatar_url,x.login);
+      }); //forEach loop
+    }); //for the GetREporContributors function
+//   }
+// }
 function downloadImageByURL(url, filePath) {
     if (!fs.existsSync('./avatars')){
       fs.mkdirSync('./avatars');
@@ -57,5 +56,5 @@ function downloadImageByURL(url, filePath) {
     })
     .pipe(fs.createWriteStream('./avatars'+'/'+filePath+".jpg"));
 };
-
-
+// complete(myArgs);
+// function if less than 2 then give more info
