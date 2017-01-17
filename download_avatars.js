@@ -24,20 +24,20 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 }
 
-// function complete(args){
-//   if (args.length < 2 ){
-//     console.log('Please specify.')
-//   } else {
+function complete(args){
+  if (args.length < 2 ){
+    console.log('Please specify.')
+  } else {
     console.log('Welcome to the GitHub Avatar Downloader!');
-    getRepoContributors('jquery', 'jquery', function(err, result) {
+    getRepoContributors(myArgs[0], myArgs[1], function(err, result) {
       var parsed = JSON.parse(result.body);
       parsed.forEach(function (x) {
     //console.log("Avatar URL :" + x.avatar_url+"\n");
       downloadImageByURL(x.avatar_url,x.login);
       });
     });
-//   }
-// }
+  }
+}
 function downloadImageByURL(url, filePath) {
     if (!fs.existsSync('./avatars')){
       fs.mkdirSync('./avatars');
@@ -48,5 +48,5 @@ function downloadImageByURL(url, filePath) {
     })
     .pipe(fs.createWriteStream('./avatars'+'/'+filePath+".jpg"));
 };
-// complete(myArgs);
+complete(myArgs);
 
